@@ -1,0 +1,40 @@
+1. Edit server hostname:
+nano /etc/hostname
+zimbra.superindo.co.id
+
+2. Edit hosts:
+nano /etc/hosts
+127.0.0.1 localhost
+10.192.2.x zimbra.superindo.co.id zimbra
+
+3. Edit resolver:
+systemctl stop systemd-resolved
+systemctl disable systemd-resolved
+rm -f /etc/resolv.conf
+nano /etc/resolv.conf
+nameserver 10.192.2.34
+nameserver 10.192.2.35
+nameserver 202.158.3.6
+nameserver 202.158.3.7
+
+4. Install and edit dnsmasq:
+install dnsmasq
+apt-get install dnsmasq
+nano /etc/dnsmasq.conf
+server= 10.192.2.x
+domain=superindo.co.id
+mx-host= superindo.co.id, zimbra.superindo.co.id, 5
+mx-host= zimbra.superindo.co.id, zimbra.superindo.co.id, 5
+listen-address=127.0.0.1
+
+systemctl restart dnsmasq
+
+5. Downloading latest Zimbra OSE
+https://techfiles.online/zimbra/
+
+tar -xvf zcs-10.0.5_GA_0423.UBUNTU20_64.20231031140352.tgz
+
+cd zcs-10.0.5_GA_0423.UBUNTU20_64.20231031140352
+
+5. Installing Zimbra OSE
+./install.sh
